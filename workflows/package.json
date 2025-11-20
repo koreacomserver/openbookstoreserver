@@ -1,0 +1,15 @@
+{
+  "name": "firebase-drive-integration",
+  "version": "1.0.0",
+  "description": "Upload files to Google Drive and save metadata to Firebase Firestore",
+  "main": "deploy.js",
+  "scripts": {
+    "start": "node deploy.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^10.0.0",
+    "googleapis": "^93.0.0",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
