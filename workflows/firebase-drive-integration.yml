@@ -1,0 +1,38 @@
+name: Firebase & Google Drive Integration
+
+on:
+  push:
+    branches:
+      - main  # main branch에 푸시할 때마다 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Set up Firebase & Google Cloud SDK
+      run: |
+        curl -sL https://firebase.tools | bash
+        curl -sSL https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-367.0.0-linux-x86_64.tar.gz | tar xz
+        ./google-cloud-sdk/install.sh
+
+    - name: Authenticate Firebase
+      run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}" > firebase-service-account.json
+      env:
+        FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+
+    - name: Deploy to Firebase and Google Drive
+      run: |
+        node deploy.js  # deploy.js 파일을 작성하여 Firebase와 Google Drive 작업을 실행
